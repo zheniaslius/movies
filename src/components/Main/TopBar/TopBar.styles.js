@@ -8,6 +8,7 @@ export const TopBarWrapper = styled.div`
     justify-content: space-between;
     align-items: center;
     margin-bottom: 75px;
+    padding-right: 80px;
 `;
 
 export const ArrowLeft = styled(KeyboardArrowLeft)`

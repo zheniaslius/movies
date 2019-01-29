@@ -1,11 +1,12 @@
 import styled from 'styled-components';
+import { Link } from 'react-router-dom';
 
-export const MovieWrapper = styled.div`
+export const MovieWrapper = styled(Link)`
+    text-decoration: none;
     width: fit-content;
     height: fit-content;
-    margin-right: 30px;
     cursor: pointer;
-    padding: 26px 20px;
+    padding: 26px 25px;
     transition: all .1s ease-out;
 
     :hover {
@@ -15,7 +16,7 @@ export const MovieWrapper = styled.div`
 `;
 
 export const Poster = styled.img`
-    width: 180px;
+    width: 190px;
     margin-bottom: 28px;
     box-shadow: 2px 14px 61px -23px rgba(0,0,0,0.71);
 `;

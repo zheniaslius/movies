@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { connect } from 'react-redux'
 import actions from '../../../../actions';
 import {
+    SectionName,
     Controls,
     MoviesWrapper,
     ScrollContainer,
@@ -43,33 +44,36 @@ class MoviesList extends Component {
         const { movies } = this.props;
 
         return (
-            <MoviesWrapper onMouseEnter={this.toggleControls} onMouseLeave={this.toggleControls}>
-                <ScrollContainer>
-                    <MoviesContainer ref={(scrollable)=>{this.scrollable = scrollable}}>
-                        {
-                            movies.map((movie, id) => 
-                                <Movie key={id} {...movie}/>
-                            )
-                        }
-                    </MoviesContainer>
-                </ScrollContainer>
-                <Controls 
-                    as={KeyboardArrowLeft}
-                    style={{fontSize: 32}}
-                    visible={this.state.hovered}
-                    onClick={() => this.scroll(250)}/>
-                <Controls 
-                    as={KeyboardArrowRight} 
-                    style={{fontSize: 32}} 
-                    visible={this.state.hovered}
-                    onClick={() => this.scroll(-250)}/>
-            </MoviesWrapper>
+            <Fragment>
+                <SectionName>Recommended For You</SectionName>
+                <MoviesWrapper onMouseEnter={this.toggleControls} onMouseLeave={this.toggleControls}>
+                    <ScrollContainer>
+                        <MoviesContainer ref={(scrollable)=>{this.scrollable = scrollable}}>
+                            {
+                                movies.map((movie, id) => 
+                                    <Movie key={id} {...movie} />
+                                )
+                            }
+                        </MoviesContainer>
+                    </ScrollContainer>
+                    <Controls 
+                        as={KeyboardArrowLeft}
+                        style={{fontSize: 32}}
+                        visible={this.state.hovered}
+                        onClick={() => this.scroll(240)}/>
+                    <Controls 
+                        as={KeyboardArrowRight} 
+                        style={{fontSize: 32}} 
+                        visible={this.state.hovered}
+                        onClick={() => this.scroll(-240)}/>
+                </MoviesWrapper>
+            </Fragment>
         );
     }
 };
 
 const mapStateToProps = state => ({
-    movies: state.movies
+    movies: state.movies.movies
 })
 
 const mapDispatchToProps = dispatch => ({

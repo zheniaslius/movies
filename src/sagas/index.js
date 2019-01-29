@@ -1,3 +1,3 @@
-import  { watchFetchMovies } from './sagas';
+import rootSaga from './sagas';
 
-export default watchFetchMovies;
+export default rootSaga;

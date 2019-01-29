@@ -1,12 +1,15 @@
 import React from 'react';
-import { SectionName, } from './Content.styles';
+import { Route, Switch } from 'react-router-dom';
 import MoviesList from './MoviesList';
+import MovieDetails from './MovieDetails';
 
 const Content = () => {
     return (
         <div>
-            <SectionName>Recommended For You</SectionName>
-            <MoviesList />
+            <Switch>
+                <Route path="/movie/:id" component={MovieDetails} />
+                <Route exact path="/" component={MoviesList} />
+            </Switch>
         </div>
     );
 };

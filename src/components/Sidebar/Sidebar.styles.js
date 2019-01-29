@@ -38,7 +38,7 @@ export const NavLink = styled.li`
     cursor: pointer;
     font-weight: bold;
     letter-spacing: 2px;
-    padding-bottom: 34px;
+    padding: 17px 0;
     color: white;
     position: relative;
     transition: color .2s ease-out;
@@ -50,8 +50,8 @@ export const NavLink = styled.li`
         display: block;
         position: absolute;
         left: -50px;
-        top: 0;
-        height: 100%;
+        top: 35%;
+        height: 70%;
         width: 5px;
         background-color: #10d5ff;
         transform: translateY(-25%);

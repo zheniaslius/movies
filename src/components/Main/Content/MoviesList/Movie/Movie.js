@@ -1,4 +1,6 @@
 import React, { Component } from 'react';
+import { connect } from 'react-redux';
+import actions from '../../../../../actions';
 import {
     MovieWrapper,
     Poster,
@@ -24,8 +26,13 @@ class Movie extends Component {
         }))
     }
 
+    movieSelected = id => {
+        this.props.showMovie(id);
+    }
+
     render() {
         let {
+            id,
             title,
             release_date,
             genres,
@@ -39,7 +46,12 @@ class Movie extends Component {
         const releaseYear = release_date.getFullYear();
 
         return (
-            <MovieWrapper onMouseEnter={this.toggleControls} onMouseLeave={this.toggleControls}>
+            <MovieWrapper 
+                to={`/movie/${id}`} 
+                onMouseEnter={this.toggleControls} 
+                onMouseLeave={this.toggleControls} 
+                onClick={() => this.movieSelected(id)}>
+                
                 <Poster src={`https://image.tmdb.org/t/p/w500/${poster_path}`}/>
                 <Title>{ title }</Title>
                 <DetailsWrapper visible={this.state.hovered}>
@@ -58,4 +70,11 @@ class Movie extends Component {
     }
 };
 
-export default Movie;
+const mapDispatchToProps = dispatch => ({
+    showMovie: id => dispatch(actions.movieSelected(id))
+})
+
+export default connect(
+    null,
+    mapDispatchToProps
+)(Movie);

@@ -1,10 +1,14 @@
 import styled from 'styled-components';
 import SvgIcon from '@material-ui/core/SvgIcon';
 
+export const SectionName = styled.h1`
+    color: #ffffff;
+    margin-bottom: 34px;
+`;
+
 export const MoviesWrapper = styled.div`
     position: relative;
-    width: 100%;
-    margin-left: -20px;
+    margin-left: -25px;
 
     :after {
         content: "";
@@ -30,13 +34,12 @@ export const Controls = styled(SvgIcon)`
 
     :first-of-type {
         box-shadow: -27px 5px 79px -13px rgba(0,0,0,0.75);
-        transform: translateX(-50%);
+        transform: translateX(-10px);
         transition: all .1s ease-out;
     }
     
     :last-of-type {
-        right: 0;
-        transform: translateX(50%);
+        right: 4%;
         box-shadow: 27px 5px 79px -13px rgba(0,0,0,0.75);
         transition: all .1s ease-out;
     }
@@ -48,6 +51,5 @@ export const ScrollContainer = styled.div`
 
 export const MoviesContainer = styled.div`
     display: flex;
-    justify-content: space-between;
     transition: all 0.2s;
 `;

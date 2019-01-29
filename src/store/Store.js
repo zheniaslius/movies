@@ -1,15 +1,16 @@
-import { createStore, applyMiddleware } from 'redux';
-import moviesReducer from '../reducers/movies.reducer';
+import { createStore, applyMiddleware, compose } from 'redux';
+import rootReducer from '../reducers/content.reducer';
 import createSagaMiddleware from 'redux-saga'
-import watchFetchMovies from '../sagas';
+import rootSaga from '../sagas';
 
 const sagaMiddleware = createSagaMiddleware()
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 const store = createStore(
-    moviesReducer,
-    applyMiddleware(sagaMiddleware)
+    rootReducer,
+    composeEnhancers(applyMiddleware(sagaMiddleware))
 );
 
-sagaMiddleware.run(watchFetchMovies);
+sagaMiddleware.run(rootSaga);
 
 export default store;
