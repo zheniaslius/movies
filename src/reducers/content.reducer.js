@@ -17,16 +17,16 @@ const moviesReducer = (state = initialState, action) => {
 }
 
 const movieInitialState = {
-    selectedMovieId: null,
-    movieDetails: {}
+    id: null,
+    details: {}
 }
 
 const movieReducer = (state = movieInitialState, action) => {
     switch (action.type) {
         case constants.MOVIE_SELECTED:
-            return { ...state, selectedMovieId: action.payload }
+            return { ...state, id: action.payload }
         case constants.GET_MOVIE_SUCCESS:
-            return { ...state, movieDetails: action.payload }
+            return { ...state, details: action.payload }
         default:
             return state;
     }

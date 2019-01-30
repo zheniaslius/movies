@@ -1,15 +1,13 @@
 import constants from '../constants';
-import { all, select, takeEvery, call, put } from "redux-saga/effects";
+import { select, takeEvery, call, put } from "redux-saga/effects";
 import axios from "axios";
 
 const API_KEY = 'da9d1724bddad79397131d5a8b35b7e2';
 const API_BASE = 'https://api.themoviedb.org/3';
 
 export default function* rootSaga() {
-    yield all([
-        yield takeEvery(constants.GET_MOVIES_REQUEST, moviesWorker),
-        yield takeEvery(constants.GET_MOVIE_REQUEST, displayMovieWorker)
-    ])
+    yield takeEvery(constants.GET_MOVIES_REQUEST, moviesWorker);
+    yield takeEvery(constants.GET_MOVIE_REQUEST, displayMovieWorker);
 }
 
 async function fetchMovies() {
@@ -49,7 +47,7 @@ function* moviesWorker() {
     }
 }
 
-const getSelectedMovie = state => state.movie.selectedMovieId
+const getSelectedMovie = state => state.movie.id
 
 async function fetchMovie(id) {
     const response = await axios({
@@ -59,11 +57,24 @@ async function fetchMovie(id) {
     return response.data;
 }
 
+async function fetchMovieCredits(id) {
+    const response = await axios({
+        method: "get",
+        url: `${API_BASE}/movie/${id}/credits?api_key=${API_KEY}`
+    });
+    return response.data;
+}
+
 function* displayMovieWorker() {
     const movieId = yield select(getSelectedMovie)
 
     const movieDetails = yield call(fetchMovie, movieId)
-    console.log(movieDetails)
+    const credits = yield call(fetchMovieCredits, movieId)
 
-    yield put({ type: constants.GET_MOVIE_SUCCESS, payload: movieDetails })
+    const creditsSliced = {
+        cast: credits.cast.slice(0, 5),
+        crew: credits.crew.filter(person => person.department === 'Directing')
+    }
+
+    yield put({ type: constants.GET_MOVIE_SUCCESS, payload: {...movieDetails, ...creditsSliced} })
 }

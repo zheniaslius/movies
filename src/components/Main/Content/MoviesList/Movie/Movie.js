@@ -9,7 +9,7 @@ import {
     Labels,
     AgeRestricion,
     OtherLabel,
-    DetailsWrapper
+    DetailsWrapper,
 } from './Movie.styles';
 
 class Movie extends Component {
@@ -38,7 +38,7 @@ class Movie extends Component {
             genres,
             adult,
             poster_path,
-            vote_average
+            vote_average,
         } = this.props;
 
         release_date = new Date(release_date);
