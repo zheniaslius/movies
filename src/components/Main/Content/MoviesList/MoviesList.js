@@ -1,4 +1,5 @@
 import React, { Component, Fragment } from 'react';
+import ReactDOM  from 'react-dom';
 import { connect } from 'react-redux'
 import actions from '../../../../actions';
 import {
@@ -38,6 +39,20 @@ class MoviesList extends Component {
         this.scrollable.style.transform = `translateX(${this.scrolled + to}px)`;
         this.scrolled += to;
         this.firstItemIndex += (to > 0) ? -1 : 1;
+
+        const lastMovie = ReactDOM.findDOMNode(this.lastMovie);
+        if (this.isInView(lastMovie)) {
+            this.props.loadMoreMovies();
+        }
+    }
+
+    isInView = (el) => {
+        const rect = el.getBoundingClientRect();
+        console.log(rect.left)
+    
+        return (
+            rect.left <= (window.innerWidth || document.documentElement.clientWidth)
+        );
     }
 
     render() {
@@ -50,8 +65,12 @@ class MoviesList extends Component {
                     <ScrollContainer>
                         <MoviesContainer ref={(scrollable)=>{this.scrollable = scrollable}}>
                             {
-                                movies.map((movie, id) => 
-                                    <Movie key={id} {...movie} />
+                                movies.map((movie, i) => 
+                                    <Movie 
+                                        key={i} 
+                                        {...movie}
+                                        ref={movie => (i === movies.length-1) ? this.lastMovie = movie : null}
+                                    />
                                 )
                             }
                         </MoviesContainer>
@@ -77,7 +96,8 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-    getMovies: () => dispatch(actions.getMovies())
+    getMovies: () => dispatch(actions.getMovies()),
+    loadMoreMovies: () => dispatch(actions.loadMoreMovies())
 })
 
 export default connect(

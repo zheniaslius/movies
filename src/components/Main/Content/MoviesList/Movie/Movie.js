@@ -30,6 +30,15 @@ class Movie extends Component {
         this.props.showMovie(id);
     }
 
+    releasedThisMonth = release => {
+        const releaseMonth = release.getMonth();
+        const todayMonth = new Date().getMonth();
+        const lastMonth = (todayMonth - 1 === -1) ? 12 : todayMonth - 1;
+        const releasedThisMonth = releaseMonth === todayMonth || releaseMonth === lastMonth;
+
+        return releasedThisMonth;
+    }
+
     render() {
         let {
             id,
@@ -44,7 +53,7 @@ class Movie extends Component {
         release_date = new Date(release_date);
         const genreName = genres[0].name;
         const releaseYear = release_date.getFullYear();
-
+        
         return (
             <MovieWrapper 
                 to={`/movie/${id}`} 
@@ -62,7 +71,9 @@ class Movie extends Component {
                     </Details>
                     <Labels>
                         { adult && <AgeRestricion>18+</AgeRestricion> }
-                        <OtherLabel>New</OtherLabel>
+                        { this.releasedThisMonth(release_date) && (
+                            <OtherLabel>New</OtherLabel>
+                        )}
                     </Labels>
                 </DetailsWrapper>
             </MovieWrapper>

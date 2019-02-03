@@ -1,12 +1,11 @@
 import styled from 'styled-components';
 
 export const DetailsWrapper = styled.div`
-    height: 100%;
+    padding-left: 5%;
 `;
 
 export const Content = styled.div`
-    padding-left: 5%;
-    width: 40%;
+    width: 50%;
 `;
 
 export const Title = styled.h1`
@@ -80,6 +79,11 @@ export const Button = styled.button`
 `;
 
 export const CastWrapper = styled.div`
+    display: flex;
+
+    > div:first-child {
+        margin-right: 14%;
+    }
 `;
 
 export const BlockTitle = styled.h3`
@@ -104,6 +108,17 @@ export const Photo = styled.img`
 
 export const Name = styled.span`
     display: inline-block;
+    line-height: 1.4;
     margin-top: 12px;
     color: #ffffff;
+`;
+
+export const Directors = styled.ul`
+    list-style: none;
+    padding: 0;
+`;
+
+export const Director = styled.li`
+    color: #ffffff;
+    padding-bottom: 10px;
 `;

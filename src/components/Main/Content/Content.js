@@ -5,12 +5,10 @@ import MovieDetails from './MovieDetails';
 
 const Content = () => {
     return (
-        <div>
-            <Switch>
-                <Route path="/movie/:id" component={MovieDetails} />
-                <Route exact path="/" component={MoviesList} />
-            </Switch>
-        </div>
+        <Switch>
+            <Route path="/movie/:id" component={MovieDetails} />
+            <Route exact path="/" component={MoviesList} />
+        </Switch>
     );
 };
 

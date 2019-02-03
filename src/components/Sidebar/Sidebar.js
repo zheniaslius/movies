@@ -14,7 +14,7 @@ const Sidebar = () => {
             <NavBlock>
                 <NavHeader>Browse telly</NavHeader>
                 <NavLinks>
-                    <NavLink>Discover</NavLink>
+                    <NavLink active={true}>Discover</NavLink>
                     <NavLink>Movies</NavLink>
                     <NavLink>Cartoons</NavLink>
                     <NavLink>Tv series</NavLink>

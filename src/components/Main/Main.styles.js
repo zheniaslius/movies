@@ -10,5 +10,5 @@ export const Wrapper = styled.div`
     background-size: cover;
     background-repeat: no-repeat;
     width: 71vw;
-    padding: 45px 0 0 80px;
+    padding: 45px 0 45px 80px;
 `;

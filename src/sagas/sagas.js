@@ -7,13 +7,19 @@ const API_BASE = 'https://api.themoviedb.org/3';
 
 export default function* rootSaga() {
     yield takeEvery(constants.GET_MOVIES_REQUEST, moviesWorker);
+    yield takeEvery(constants.GET_MORE_MOVIES, moviesWorker);
     yield takeEvery(constants.GET_MOVIE_REQUEST, displayMovieWorker);
 }
 
-async function fetchMovies() {
+//Selectors
+const getMoviesPage = state => state.movies.page;
+
+const getSelectedMovie = state => state.movie.id;
+
+async function fetchMovies(page = 1) {
     const response = await axios({
         method: "get",
-        url: `${API_BASE}/movie/popular?api_key=${API_KEY}&language=en-US&page=1`
+        url: `${API_BASE}/movie/popular?api_key=${API_KEY}&page=${page}`
     });
     return response.data.results;
 }
@@ -35,19 +41,18 @@ function getGenreNames(movies, genres) {
 
 function* moviesWorker() {
     try {
-        const movies = yield call(fetchMovies);
+        const page = yield select(getMoviesPage);
+        const movies = yield call(fetchMovies, page);
         const genres = yield call(fetchGenres);
 
         const moviesWithGenres = yield call(getGenreNames, movies, genres);
 
-        yield put({ type: constants.GET_MOVIES_SUCCESS, payload: moviesWithGenres});
+        yield put({ type: constants.GET_MOVIES_SUCCESS, payload: moviesWithGenres });
     }
     catch (error) {
         yield put({ type: constants.GET_MOVIES_FAILURE, error });
     }
 }
-
-const getSelectedMovie = state => state.movie.id
 
 async function fetchMovie(id) {
     const response = await axios({

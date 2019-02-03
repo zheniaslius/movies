@@ -1,4 +1,4 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const SidebarWrapper = styled.div`
     padding: 0 3em;
@@ -45,15 +45,19 @@ export const NavLink = styled.li`
     &:hover {
         color: #10d5ff;
     }
-    &:hover:after {
-        content: "";
-        display: block;
-        position: absolute;
-        left: -50px;
-        top: 35%;
-        height: 70%;
-        width: 5px;
-        background-color: #10d5ff;
-        transform: translateY(-25%);
+
+    ${props => props.active && css`
+        color: #10d5ff;
+        &:after {
+            content: "";
+            display: block;
+            position: absolute;
+            left: -50px;
+            top: 35%;
+            height: 70%;
+            width: 5px;
+            background-color: #10d5ff;
+            transform: translateY(-25%);
     }
+    `}
 `;
