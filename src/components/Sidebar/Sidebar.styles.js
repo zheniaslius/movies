@@ -2,7 +2,6 @@ import styled, { css } from 'styled-components';
 
 export const SidebarWrapper = styled.div`
     padding: 0 3em;
-    height: 100vh;
     width: 20vw;
     background-color: #131c25;
     text-transform: uppercase;

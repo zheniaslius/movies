@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Search from '@material-ui/icons/Search';
+import Notifications from '@material-ui/icons/Notifications';
 import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
 import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
 
@@ -20,8 +21,15 @@ export const ArrowRight = styled(KeyboardArrowRight)`
     cursor: pointer;    
 `;
 
+const Icon = styled.svg`
+`;
+
 export const SearchIcon = styled(Search)`
     padding-right: 20px;
+`;
+
+export const NotificationIcon = styled(Notifications)`
+
 `;
 
 export const Controls = styled.div`

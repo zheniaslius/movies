@@ -15,7 +15,7 @@ export const MoviesWrapper = styled.div`
         display: block;
         position: absolute;
         height: 100%;
-        width: 160px;
+        width: 190px;
         right: 0;
         top: 0;
         background: linear-gradient(to right,rgba(12, 23, 30, 0) 0%,rgba(12, 23, 30, 0.7) 100%);

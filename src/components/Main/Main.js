@@ -9,12 +9,15 @@ class Main extends Component {
         super();
     }
 
-    getFullPath = img => `https://image.tmdb.org/t/p/w1280/${img}`;
+    getFullPath = img => img && `https://image.tmdb.org/t/p/w1280/${img}`;
 
     render() {
         const { background } = this.props;
+        const { pathname } = this.props.location;
+        const showbg = pathname !== '/';
+
         return (
-            <Wrapper image={this.getFullPath(background)} showbg={!!background}>
+            <Wrapper image={this.getFullPath(background)} showbg={showbg}>
                 <TopBar />
                 <Content />
             </Wrapper>

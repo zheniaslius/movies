@@ -10,6 +10,7 @@ export const Content = styled.div`
 
 export const Title = styled.h1`
     width: max-content;
+    max-width: fit-content;
     color: #ffffff;
     font-size: 4em;
     margin: 0.5em 0;

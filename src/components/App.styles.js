@@ -4,6 +4,10 @@ const GlobalStyle = createGlobalStyle`
   body {
     font-family: 'Open Sans', sans-serif;
   }
+
+  button {
+    outline: none;
+  }
 `;
 
 export const theme = {
@@ -14,6 +18,7 @@ export const theme = {
 
 export const Wrapper = styled.div`
   display: flex;
+  min-height: 100vh;
 `;
 
 export default GlobalStyle;

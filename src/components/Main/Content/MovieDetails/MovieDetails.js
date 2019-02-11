@@ -25,11 +25,19 @@ import Bookmark from "@material-ui/icons/Bookmark";
 
 class MovieDetails extends Component {
   componentDidMount() {
-    this.props.getMovie(this.props.movie);
+    const {id} = this.props.match.params;
+    this.props.movieSelected(id);
+    this.props.getMovie();
+  }
+
+  book = () => {
+    const { id } = this.props.movie;
+    this.props.bookMovie(id)
   }
 
   render() {
     const {
+      id,
       title,
       vote_average,
       genres,
@@ -40,6 +48,7 @@ class MovieDetails extends Component {
       cast,
       crew
     } = this.props.movie;
+    const { booked } = this.props;
 
     const release = new Date(release_date);
     const releaseYear = release.getFullYear();
@@ -66,9 +75,11 @@ class MovieDetails extends Component {
               <PlayArrow />
               Play movie
             </Button>
-            <Button>
-              <Bookmark />
-              Watch Later
+            <Button onClick={this.book}>
+              <Bookmark/>
+              {booked.includes(id)
+              ? 'Added'
+              : 'Watch Later'}
             </Button>
           </ButtonsWrapper>
         </Content>
@@ -87,8 +98,8 @@ class MovieDetails extends Component {
           <div>
             <BlockTitle>Directed by</BlockTitle>
             <Directors>
-              {crew.map(director => (
-                <Director>{director.name}</Director>
+              {crew.map((director, i) => (
+                <Director key={i}>{director.name}</Director>
               ))}
             </Directors>
           </div>
@@ -99,11 +110,14 @@ class MovieDetails extends Component {
 }
 
 const mapStateToProps = state => ({
-  movie: state.movie.details
+  movie: state.movie.details,
+  booked: state.booked
 });
 
 const mapDispatchToProps = dispatch => ({
-  getMovie: () => dispatch(actions.getMovie())
+  getMovie: () => dispatch(actions.getMovie()),
+  movieSelected: id => dispatch(actions.movieSelected(id)),
+  bookMovie: id => dispatch(actions.bookMovie(id))
 });
 
 export default connect(

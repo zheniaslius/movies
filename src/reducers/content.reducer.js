@@ -21,7 +21,7 @@ const moviesReducer = (state = initialState, action) => {
 
 const movieInitialState = {
     id: null,
-    details: {}
+    details: {},
 }
 
 const movieReducer = (state = movieInitialState, action) => {
@@ -35,9 +35,24 @@ const movieReducer = (state = movieInitialState, action) => {
     }
 }
 
+const bookedMoviesReducer = (state = [], action) => {
+    const id = action.payload;
+
+    switch (action.type) {
+        case constants.BOOK_MOVIE:
+            if (![...state].includes(id))
+                return [...state, id];
+            else
+                return state.filter(item => item !== id)
+        default:
+            return state;
+    }
+}
+
 const rootReducer = combineReducers({
     movies: moviesReducer,
-    movie: movieReducer
+    movie: movieReducer,
+    booked: bookedMoviesReducer
 })
 
 export default rootReducer;
