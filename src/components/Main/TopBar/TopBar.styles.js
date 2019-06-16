@@ -1,8 +1,5 @@
 import styled from 'styled-components';
-import Search from '@material-ui/icons/Search';
-import Notifications from '@material-ui/icons/Notifications';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+import { media } from '../../App.styles';
 
 export const TopBarWrapper = styled.div`
     display: flex;
@@ -10,35 +7,40 @@ export const TopBarWrapper = styled.div`
     align-items: center;
     margin-bottom: 75px;
     padding-right: 80px;
-`;
 
-export const ArrowLeft = styled(KeyboardArrowLeft)`
-    margin-right: .5em;
-    cursor: pointer;    
-`;
-
-export const ArrowRight = styled(KeyboardArrowRight)`
-    cursor: pointer;    
-`;
-
-const Icon = styled.svg`
-`;
-
-export const SearchIcon = styled(Search)`
-    padding-right: 20px;
-`;
-
-export const NotificationIcon = styled(Notifications)`
-
+    ${media.mobileL`
+        padding-right: 0;
+        margin-bottom: 55px;
+    `}
 `;
 
 export const Controls = styled.div`
-    fill: white;
+    svg {
+        cursor: pointer;
+        fill: white;
+        height: 32px;
+        width: auto;
+        color: #ffffff;
+
+        :first-child {
+            margin-right: 5px;
+        }
+    }
+
+    ${media.mobileL`
+        display: flex;
+        margin-right: 40px;
+    `}
 `;
 
 export const TopBarRight = styled.div`
     display: flex;
     align-items: center;
+
+    svg {
+        fill: #8b93a6;
+        font-size: 24px;
+    }
 `;
 
 export const Profile = styled.div`
@@ -49,6 +51,10 @@ export const Profile = styled.div`
         height: 40px;
         padding-right: 1em;
     }
+
+    ${media.mobileL`
+        align-items: center;
+    `}
 `;
 
 
@@ -62,4 +68,8 @@ export const Action = styled.span`
     color: ${props => props.theme.light_grey};
     font-weight: normal;
     font-size: 14px;
+
+    ${media.mobileL`
+        display: none;
+    `}
 `;

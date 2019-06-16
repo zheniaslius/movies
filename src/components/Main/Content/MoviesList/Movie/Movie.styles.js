@@ -5,6 +5,8 @@ export const MovieWrapper = styled(Link)`
     text-decoration: none;
     width: fit-content;
     height: fit-content;
+    min-height: 445px;
+    box-sizing: border-box;
     cursor: pointer;
     padding: 26px 25px;
     transition: all .1s ease-out;
@@ -27,6 +29,11 @@ export const Title = styled.span`
     text-align: center;
     color: #ffffff;
     font-weight: bold;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
 `;
 
 export const DetailsWrapper = styled.div`

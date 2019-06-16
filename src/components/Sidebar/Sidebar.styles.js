@@ -1,10 +1,15 @@
 import styled, { css } from 'styled-components';
+import { media } from '../App.styles';
 
 export const SidebarWrapper = styled.div`
     padding: 0 3em;
     width: 20vw;
     background-color: #131c25;
     text-transform: uppercase;
+
+    ${media.laptop`
+        display: none;
+    `}
 `;
 
 export const Logo = styled.h1`

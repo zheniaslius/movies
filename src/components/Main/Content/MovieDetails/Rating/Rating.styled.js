@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import Star from '@material-ui/icons/Star';
+import { ReactComponent as Star } from '../../../../../assets/icons/baseline-star-24px.svg';
 
 export const RatingWrapper = styled.div`
     display: flex;

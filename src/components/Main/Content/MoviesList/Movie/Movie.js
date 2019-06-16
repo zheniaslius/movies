@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { animated } from 'react-spring';
 import {
     MovieWrapper,
     Poster,
@@ -9,6 +10,8 @@ import {
     OtherLabel,
     DetailsWrapper,
 } from './Movie.styles';
+
+const AnimatedMovie = animated(MovieWrapper);
 
 class Movie extends Component {
     constructor(props) {
@@ -24,13 +27,13 @@ class Movie extends Component {
         }))
     }
 
-    releasedThisMonth = release => {
+    isReleasedThisMonth = release => {
+        if (release.getFullYear() !== new Date().getFullYear) return false;
+
         const releaseMonth = release.getMonth();
         const todayMonth = new Date().getMonth();
         const lastMonth = (todayMonth - 1 === -1) ? 12 : todayMonth - 1;
-        const releasedThisMonth = releaseMonth === todayMonth || releaseMonth === lastMonth;
-
-        return releasedThisMonth;
+        return todayMonth === releaseMonth || releaseMonth === lastMonth;
     }
 
     render() {
@@ -49,13 +52,13 @@ class Movie extends Component {
         const releaseYear = release_date.getFullYear();
         
         return (
-            <MovieWrapper 
+            <AnimatedMovie 
                 to={`/movie/${id}`} 
                 onMouseEnter={this.toggleControls} 
                 onMouseLeave={this.toggleControls}
+                style={this.props.animation}
             >
-
-                <Poster src={`https://image.tmdb.org/t/p/w300/${poster_path}`}/>
+                <Poster src={`https://image.tmdb.org/t/p/w300/${poster_path}`} onLoad={()=>console.log('img loaded')}/>
                 <Title>{ title }</Title>
                 <DetailsWrapper visible={this.state.hovered}>
                     <Details>
@@ -65,12 +68,12 @@ class Movie extends Component {
                     </Details>
                     <Labels>
                         { adult && <AgeRestricion>18+</AgeRestricion> }
-                        { this.releasedThisMonth(release_date) && (
-                            <OtherLabel>New</OtherLabel>
-                        )}
+                        { this.isReleasedThisMonth(release_date) && 
+                            <OtherLabel>New</OtherLabel> 
+                        }
                     </Labels>
                 </DetailsWrapper>
-            </MovieWrapper>
+            </AnimatedMovie>
         );
     }
 };

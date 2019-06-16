@@ -1,4 +1,5 @@
-import React, { Component, Fragment } from 'react';
+import React, { Fragment, useState, useEffect, useRef } from 'react';
+import { useTrail, useSpring, animated, config } from 'react-spring'
 import ReactDOM  from 'react-dom';
 import { connect } from 'react-redux'
 import actions from '../../../../actions';
@@ -9,87 +10,83 @@ import {
     ScrollContainer,
     MoviesContainer
 } from './MoviesList.styles';
-import KeyboardArrowLeft from '@material-ui/icons/KeyboardArrowLeft';
-import KeyboardArrowRight from '@material-ui/icons/KeyboardArrowRight';
+
+import { ReactComponent as ArrowLeft } from '../../../../assets/icons/baseline-keyboard_arrow_left-24px.svg';
+import { ReactComponent as ArrowRight } from '../../../../assets/icons/baseline-keyboard_arrow_right-24px (1).svg';
+
+import { isInView } from '../../../../helpers';
+
 import Movie from './Movie';
+const AnimatedMovie = animated(Movie);
 
-class MoviesList extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            hovered: false
-        }
-        this.scrolled = 0;
-        this.firstItemIndex = 0;
-    }
+const MoviesList = props => {
+    const {
+        getMovies,
+        loadMoreMovies,
+        movies
+    } = props;
 
-    componentDidMount() {
-        this.props.getMovies();
-    }
+    const scrollable = useRef(null);
+    const [lastMovie, setLastMovie] = useState();
+    const [scrolled, setScrolled] = useState(0);
+    const [firstItemIndex, setFirstItemIndex] = useState(0);
+    const [trail, set] = useTrail(movies.length, () => ({
+        y: 50,
+        opacity: 0,
+    }))
+    const spring = useSpring({ opacity: 1, from: { opacity: 0 }, config: config.slow })
 
-    toggleControls = () => {
-        this.setState(prevState => ({
-            hovered: !prevState.hovered,
-        }))
-    }
+    useEffect(() => {
+        getMovies();
+    }, [])
 
-    scroll = to => {
-        if (this.firstItemIndex === 0 && to > 0) return;
+    const scroll = to => {
+        if (firstItemIndex === 0 && to > 0) return;
         
-        this.scrollable.style.transform = `translateX(${this.scrolled + to}px)`;
-        this.scrolled += to;
-        this.firstItemIndex += (to > 0) ? -1 : 1;
-
-        const lastMovie = ReactDOM.findDOMNode(this.lastMovie);
-        if (this.isInView(lastMovie)) {
-            this.props.loadMoreMovies();
+        const mobileHeight = 900;
+        const scrollItems = (window.innerHeight < mobileHeight) ? 1 : 4;
+        scrollable.current.style.transform = `translateX(${(scrolled + to) * scrollItems}px)`;
+        setScrolled(scrolled + to);
+        setFirstItemIndex(setFirstItemIndex + ((to > 0) ? -1 : 1));
+    
+        if (isInView(ReactDOM.findDOMNode(lastMovie))) {
+            loadMoreMovies();
         }
     }
 
-    isInView = (el) => {
-        const rect = el.getBoundingClientRect();
-        console.log(rect.left)
-    
-        return (
-            rect.left <= (window.innerWidth || document.documentElement.clientWidth)
-        );
-    }
-
-    render() {
-        const { movies } = this.props;
-
-        return (
-            <Fragment>
-                <SectionName>Recommended For You</SectionName>
-                <MoviesWrapper onMouseEnter={this.toggleControls} onMouseLeave={this.toggleControls}>
-                    <ScrollContainer>
-                        <MoviesContainer ref={(scrollable)=>{this.scrollable = scrollable}}>
-                            {
-                                movies.map((movie, i) => 
-                                    <Movie 
-                                        key={i} 
-                                        {...movie}
-                                        ref={movie => (i === movies.length-1) ? this.lastMovie = movie : null}
-                                    />
-                                )
-                            }
-                        </MoviesContainer>
-                    </ScrollContainer>
-                    <Controls 
-                        as={KeyboardArrowLeft}
-                        style={{fontSize: 32}}
-                        visible={this.state.hovered}
-                        onClick={() => this.scroll(240)}/>
-                    <Controls 
-                        as={KeyboardArrowRight} 
-                        style={{fontSize: 32}} 
-                        visible={this.state.hovered}
-                        onClick={() => this.scroll(-240)}/>
-                </MoviesWrapper>
-            </Fragment>
-        );
-    }
-};
+    // Don`t animate when scrolled
+    !scrolled && set({ y: 0, opacity: 1 });
+    return (
+        <Fragment>
+            <SectionName style={spring}>Recommended For You</SectionName>
+            <MoviesWrapper>
+                <ScrollContainer>
+                    <MoviesContainer ref={scrollable}>
+                        {
+                            trail.map(({y, ...rest}, index) => (
+                                <AnimatedMovie 
+                                    key={movies[index].id} 
+                                    animation={index < 7 
+                                        ? {...rest, transform: y.interpolate(y => `translateY(${y}px)`)}
+                                        : null
+                                    }
+                                    ref={movie => (index === movies.length-5) ? setLastMovie(movie) : null}
+                                    {...movies[index]}
+                                />
+                            ))
+                        }
+                    </MoviesContainer>
+                </ScrollContainer>
+                <Controls 
+                    as={ArrowLeft}
+                    onClick={() => scroll(240)}/>
+                <Controls 
+                    as={ArrowRight} 
+                    onClick={() => scroll(-240)}/>
+            </MoviesWrapper>
+        </Fragment>
+    );
+}
 
 const mapStateToProps = state => ({
     movies: state.movies.movies

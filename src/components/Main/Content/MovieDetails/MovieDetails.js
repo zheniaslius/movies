@@ -10,6 +10,7 @@ import {
   Description,
   ButtonsWrapper,
   Button,
+  BookmarkButton,
   CastWrapper,
   BlockTitle,
   Actors,
@@ -19,9 +20,10 @@ import {
   Directors,
   Director
 } from "./MovieDetails.styles";
+import { ReactComponent as Bookmark } from '../../../../assets/icons/baseline-bookmark-24px.svg';
+import { ReactComponent as PlayArrow } from '../../../../assets/icons/baseline-play_arrow-24px.svg';
 import Rating from "./Rating";
-import PlayArrow from "@material-ui/icons/PlayArrow";
-import Bookmark from "@material-ui/icons/Bookmark";
+
 
 class MovieDetails extends Component {
   componentDidMount() {
@@ -48,13 +50,13 @@ class MovieDetails extends Component {
       cast,
       crew
     } = this.props.movie;
-    const { booked } = this.props;
+    const isBooked = this.props.booked.includes(id);
 
     const release = new Date(release_date);
     const releaseYear = release.getFullYear();
     const URL = "https://image.tmdb.org/t/p/w500";
 
-    if (!title) return null;
+    if (!id) return null;
 
     return (
       <DetailsWrapper>
@@ -75,12 +77,12 @@ class MovieDetails extends Component {
               <PlayArrow />
               Play movie
             </Button>
-            <Button onClick={this.book}>
+            <BookmarkButton onClick={this.book} isBooked={isBooked}>
               <Bookmark/>
-              {booked.includes(id)
+              { isBooked
               ? 'Added'
               : 'Watch Later'}
-            </Button>
+            </BookmarkButton>
           </ButtonsWrapper>
         </Content>
         <CastWrapper>

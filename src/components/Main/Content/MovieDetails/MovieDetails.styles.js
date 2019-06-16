@@ -1,11 +1,20 @@
 import styled from 'styled-components';
+import { media } from '../../../App.styles';
 
 export const DetailsWrapper = styled.div`
     padding-left: 5%;
+
+    ${media.mobileL`
+        padding-left: 2%;
+    `}
 `;
 
 export const Content = styled.div`
     width: 50%;
+
+    ${media.mobileL`
+        width: unset;
+    `}
 `;
 
 export const Title = styled.h1`
@@ -14,6 +23,10 @@ export const Title = styled.h1`
     color: #ffffff;
     font-size: 4em;
     margin: 0.5em 0;
+
+    ${media.mobileL`
+        font-size: 2em;
+    `}
 `;
 
 export const Short = styled.div`
@@ -22,6 +35,11 @@ export const Short = styled.div`
     justify-content: space-between;    
     color: ${props => props.theme.light_grey};
     margin-bottom: 45px;
+
+    ${media.mobileL`
+        flex-direction: column;
+        margin-bottom: 30px;
+    `}
 `;
 
 export const Tags = styled.div`
@@ -40,6 +58,10 @@ export const Tags = styled.div`
             content: none;
         }
     }
+
+    ${media.mobileL`
+        line-height: 2.1;
+    `}
 `;
 
 export const Description = styled.p`
@@ -50,10 +72,19 @@ export const Description = styled.p`
 
 export const ButtonsWrapper = styled.div`
     display: flex;
+    margin: 65px 0;
+
     button:first-of-type {
         margin-right: 35px;
+
+        ${media.mobileL`
+            margin-right: 22px;
+        `}
     }
-    margin: 65px 0;
+
+    ${media.mobileL`
+        margin: 35px 0 45px;
+    `}
 `;
 
 export const Button = styled.button`
@@ -61,7 +92,7 @@ export const Button = styled.button`
     align-items: center;
     justify-content: center;
     text-transform: uppercase;
-    font-size: 0.9em;
+    font-size: .9em;
     letter-spacing: 1px;
     font-weight: bold;
     cursor: pointer;
@@ -71,11 +102,30 @@ export const Button = styled.button`
     "#ffffff" : props.theme.light_grey};
     border: 2px solid ${props => props.primary ?
     props.theme.light_blue : props.theme.light_grey};
-    padding: 1em 0;
+    padding: 1.2em 10px;
     width: 200px;
+
+    ${media.mobileL`
+        padding: 10px;
+        width: auto;
+    `}
 
     svg {
         padding-right: 10px;
+        fill: #ffffff;
+        width: 1.2em;
+        height: auto;
+    }
+`;
+
+export const BookmarkButton = styled(Button)`
+    color: ${props => props.isBooked && props.theme.light_blue};
+    border-color: ${props => props.isBooked && props.theme.light_blue};
+
+    svg {
+        fill: ${props => (props.isBooked)
+        ? props.theme.light_blue
+        : props.theme.light_grey};
     }
 `;
 
@@ -84,7 +134,15 @@ export const CastWrapper = styled.div`
 
     > div:first-child {
         margin-right: 14%;
+
+        ${media.mobileL`
+            margin-bottom: 30px;
+        `}
     }
+
+    ${media.mobileL`
+        flex-direction: column;
+    `}
 `;
 
 export const BlockTitle = styled.h3`
@@ -96,6 +154,15 @@ export const BlockTitle = styled.h3`
 
 export const Actors = styled.div`
     display: flex;
+
+    ${media.mobileL`
+        width: 100vw;
+        overflow: scroll;
+
+        > div:last-of-type {
+            padding-right: 90px;
+        }
+    `}
 `;
 
 export const Actor = styled.div`

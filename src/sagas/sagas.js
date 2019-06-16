@@ -11,9 +11,8 @@ export default function* rootSaga() {
     yield takeEvery(constants.GET_MOVIE_REQUEST, displayMovieWorker);
 }
 
-//Selectors
+// Selectors
 const getMoviesPage = state => state.movies.page;
-
 const getSelectedMovie = state => state.movie.id;
 
 async function fetchMovies(page = 1) {
@@ -80,6 +79,5 @@ function* displayMovieWorker() {
         cast: credits.cast.slice(0, 5),
         crew: credits.crew.filter(person => person.department === 'Directing')
     }
-
     yield put({ type: constants.GET_MOVIE_SUCCESS, payload: {...movieDetails, ...creditsSliced} })
 }
