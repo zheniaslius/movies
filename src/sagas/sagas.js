@@ -70,14 +70,15 @@ async function fetchMovieCredits(id) {
 }
 
 function* displayMovieWorker() {
-    const movieId = yield select(getSelectedMovie)
+    const movieId = yield select(getSelectedMovie);
 
-    const movieDetails = yield call(fetchMovie, movieId)
-    const credits = yield call(fetchMovieCredits, movieId)
+    const movieDetails = yield call(fetchMovie, movieId);
+    const credits = yield call(fetchMovieCredits, movieId);
 
     const creditsSliced = {
         cast: credits.cast.slice(0, 5),
-        crew: credits.crew.filter(person => person.department === 'Directing')
+        crew: credits.crew.filter(person => person.department === 'Directing'),
     }
-    yield put({ type: constants.GET_MOVIE_SUCCESS, payload: {...movieDetails, ...creditsSliced} })
+    yield put({ type: constants.GET_MOVIE_SUCCESS, payload: {...movieDetails, ...creditsSliced} });
 }
+

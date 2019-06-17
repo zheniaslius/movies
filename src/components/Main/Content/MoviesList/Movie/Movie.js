@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { animated } from 'react-spring';
+
 import {
     MovieWrapper,
     Poster,
@@ -19,6 +20,7 @@ class Movie extends Component {
         this.state = {
             hovered: false
         }
+        this.movieRef = React.createRef();
     }
 
     toggleControls = () => {
@@ -57,8 +59,9 @@ class Movie extends Component {
                 onMouseEnter={this.toggleControls} 
                 onMouseLeave={this.toggleControls}
                 style={this.props.animation}
+                ref={this.movieRef}
             >
-                <Poster src={`https://image.tmdb.org/t/p/w300/${poster_path}`} onLoad={()=>console.log('img loaded')}/>
+                <Poster src={`https://image.tmdb.org/t/p/w300/${poster_path}`} />
                 <Title>{ title }</Title>
                 <DetailsWrapper visible={this.state.hovered}>
                     <Details>

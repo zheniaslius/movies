@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { media } from '../../../App.styles';
 
 export const DetailsWrapper = styled.div`
+    visibility: ${p => p.visible ? 'visible' : 'hidden'};
     padding-left: 5%;
 
     ${media.mobileL`
@@ -176,6 +177,7 @@ export const Photo = styled.img`
 
 export const Name = styled.span`
     display: inline-block;
+    word-break: break-word;
     line-height: 1.4;
     margin-top: 12px;
     color: #ffffff;

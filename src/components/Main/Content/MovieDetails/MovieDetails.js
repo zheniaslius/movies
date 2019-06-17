@@ -26,16 +26,27 @@ import Rating from "./Rating";
 
 
 class MovieDetails extends Component {
+  state = {
+    photosLoaded: 0
+  }
+
   componentDidMount() {
     const {id} = this.props.match.params;
     this.props.movieSelected(id);
     this.props.getMovie();
   }
 
+  componentWillUnmount() {
+    this.setState({ photoLoaded: 0 })
+  }
+  
+
   book = () => {
     const { id } = this.props.movie;
     this.props.bookMovie(id)
   }
+
+  photoLoaded = () => this.setState({photosLoaded: this.state.photosLoaded + 1})
 
   render() {
     const {
@@ -48,19 +59,19 @@ class MovieDetails extends Component {
       overview,
       adult,
       cast,
-      crew
+      crew,
     } = this.props.movie;
     const isBooked = this.props.booked.includes(id);
 
     const release = new Date(release_date);
     const releaseYear = release.getFullYear();
     const URL = "https://image.tmdb.org/t/p/w500";
+    const isPhotosLoaded = this.state.photosLoaded === 5;
 
     if (!id) return null;
-
     return (
-      <DetailsWrapper>
-            <Content>
+      <DetailsWrapper visible={isPhotosLoaded}>
+        <Content>
           <Title>{title}</Title>
           <Short>
             <Rating vote={vote_average} />
@@ -91,7 +102,7 @@ class MovieDetails extends Component {
             <Actors>
               {cast.map(actor => (
                 <Actor key={actor.cast_id}>
-                  <Photo src={`${URL}/${actor.profile_path}`} />
+                  <Photo src={`${URL}/${actor.profile_path}`} onLoad={this.photoLoaded}/>
                   <Name>{actor.name}</Name>
                 </Actor>
               ))}
@@ -100,8 +111,8 @@ class MovieDetails extends Component {
           <div>
             <BlockTitle>Directed by</BlockTitle>
             <Directors>
-              {crew.map((director, i) => (
-                <Director key={i}>{director.name}</Director>
+              {crew.slice(0,5).map(director => (
+                <Director key={director.id}>{director.name}</Director>
               ))}
             </Directors>
           </div>

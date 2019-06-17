@@ -52,7 +52,7 @@ const bookedMoviesReducer = (state = [], action) => {
 const rootReducer = combineReducers({
     movies: moviesReducer,
     movie: movieReducer,
-    booked: bookedMoviesReducer
+    booked: bookedMoviesReducer,
 })
 
 export default rootReducer;

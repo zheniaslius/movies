@@ -9,7 +9,7 @@ const constants = {
     GET_MOVIE_REQUEST       : 'GET_MOVIE_REQUEST',
     GET_MOVIE_SUCCESS       : 'GET_MOVIE_SUCCESS',
     
-    BOOK_MOVIE              : 'BOOK_MOVIE'
+    BOOK_MOVIE              : 'BOOK_MOVIE',
 };
 
 export default constants;

@@ -66,7 +66,7 @@ export const ScrollContainer = styled.div`
     overflow: hidden;
 `;
 
-export const MoviesContainer = styled.div`
+export const MoviesContainer = styled(animated.div)`
     display: flex;
     transition: all 0.5s ease;
 `;
