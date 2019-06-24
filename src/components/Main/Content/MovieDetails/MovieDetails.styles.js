@@ -1,8 +1,8 @@
 import styled from 'styled-components';
+import { animated } from 'react-spring';
 import { media } from '../../../App.styles';
 
 export const DetailsWrapper = styled.div`
-    visibility: ${p => p.visible ? 'visible' : 'hidden'};
     padding-left: 5%;
 
     ${media.mobileL`
@@ -18,7 +18,7 @@ export const Content = styled.div`
     `}
 `;
 
-export const Title = styled.h1`
+export const Title = styled(animated.h1)`
     width: max-content;
     max-width: fit-content;
     color: #ffffff;
@@ -30,7 +30,7 @@ export const Title = styled.h1`
     `}
 `;
 
-export const Short = styled.div`
+export const Short = styled(animated.div)`
     font-size: 1.1em;
     display: flex;
     justify-content: space-between;    
@@ -65,7 +65,7 @@ export const Tags = styled.div`
     `}
 `;
 
-export const Description = styled.p`
+export const Description = styled(animated.p)`
     color: #ffffff;
     line-height: 1.6;
     margin: 0;
@@ -177,7 +177,6 @@ export const Photo = styled.img`
 
 export const Name = styled.span`
     display: inline-block;
-    word-break: break-word;
     line-height: 1.4;
     margin-top: 12px;
     color: #ffffff;

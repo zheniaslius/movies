@@ -7,7 +7,6 @@ const API_BASE = 'https://api.themoviedb.org/3';
 
 export default function* rootSaga() {
     yield takeEvery(constants.GET_MOVIES_REQUEST, moviesWorker);
-    yield takeEvery(constants.GET_MORE_MOVIES, moviesWorker);
     yield takeEvery(constants.GET_MOVIE_REQUEST, displayMovieWorker);
 }
 

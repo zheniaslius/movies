@@ -9,11 +9,7 @@ const initialState = {
 const moviesReducer = (state = initialState, action) => {
     switch (action.type) {
         case constants.GET_MOVIES_SUCCESS:
-            return { ...state, movies: [...state.movies, ...action.payload] }
-        case constants.GET_MORE_MOVIES:
-            return { ...state, page: state.page + 1 }
-        case constants.GET_MORE_MOVIES_SUCCESS:
-            return { page: state.page, movies: [...state.movies, ...action.payload] }
+            return { ...state, movies: [...state.movies, ...action.payload], page: state.page + 1 }
         default:
             return state;
     }

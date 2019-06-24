@@ -1,7 +1,7 @@
 import React, { Fragment, useState, useEffect, useRef } from 'react';
 import { useTrail, useSpring, animated, config } from 'react-spring';
 import ReactDOM  from 'react-dom';
-import { connect } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 
 import {
     SectionName,
@@ -23,16 +23,13 @@ const AnimatedMovie = animated(Movie);
 const CAROUSEL_ITEM_WIDTH = 240;
 
 const MoviesList = props => {
-    const {
-        getMovies,
-        loadMoreMovies,
-        movies,
-    } = props;
-
+    let lastMovie, scrolled = 0;
+    const dispatch = useDispatch()
+    const movies = useSelector(state => state.movies.movies);
     const scrollable = useRef(null);
     const [scrollError, setScrollError] = useState(false);
-    const [lastMovie, setLastMovie] = useState();
-    const [scrolled, setScrolled] = useState(0);
+
+    // Animations
     const [trail, setTrail, stopTrail] = useTrail(movies.length, () => ({
         y: 50,
         opacity: 0,
@@ -41,7 +38,7 @@ const MoviesList = props => {
     const [{x}, setError] = useSpring(() => ({ x: 0, config: { clamp: true, mass: 1, tension: 500 } }));
 
     useEffect(() => {
-        getMovies();
+        if (!movies.length) dispatch(actions.getMovies());
     }, [])
     useEffect(() => () => stopTrail());
     useEffect(() => {
@@ -57,15 +54,15 @@ const MoviesList = props => {
         const mobileHeight = 900;
         const scrollItems = (window.innerHeight < mobileHeight) ? 1 : 4;
         scrollable.current.style.transform = `translateX(${(scrolled + to) * scrollItems}px)`;
-        setScrolled(scrolled + to);
+        scrolled += to;
     
         if (isInView(ReactDOM.findDOMNode(lastMovie))) {
-            loadMoreMovies();
+            dispatch(actions.getMovies());
         }
     }
 
     !scrolled && setTrail({ y: 0, opacity: 1 }); 
-    
+    console.log(movies)
     if (!movies.length) return null;
     return (
         <Fragment>
@@ -81,7 +78,7 @@ const MoviesList = props => {
                                             ? {...rest, transform: y.interpolate(y => `translateY(${y}px)`)}
                                             : null
                                         }
-                                        ref={movie => (index === movies.length-5) ? setLastMovie(movie) : null}
+                                        ref={movie => (index === movies.length-5) ? lastMovie = movie : null}
                                         {...movies[index]}
                                     />
                             ))
@@ -99,16 +96,4 @@ const MoviesList = props => {
     );
 }
 
-const mapStateToProps = state => ({
-    movies: state.movies.movies,
-})
-
-const mapDispatchToProps = dispatch => ({
-    getMovies: () => dispatch(actions.getMovies()),
-    loadMoreMovies: () => dispatch(actions.loadMoreMovies())
-})
-
-export default connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(MoviesList);
+export default MoviesList;
